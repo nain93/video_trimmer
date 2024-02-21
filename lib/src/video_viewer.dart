@@ -1,24 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_trimmer/video_trimmer.dart';
 
-import 'trimmer.dart';
-
-class VideoViewer extends StatefulWidget {
-  /// The Trimmer instance controlling the data.
-  final Trimmer trimmer;
-
-  /// For specifying the color of the video
-  /// viewer area border. By default it is set to `Colors.transparent`.
-  final Color borderColor;
-
-  /// For specifying the border width around
-  /// the video viewer area. By default it is set to `0.0`.
-  final double borderWidth;
-
-  /// For specifying a padding around the video viewer
-  /// area. By default it is set to `EdgeInsets.all(0.0)`.
-  final EdgeInsets padding;
-
+class VideoTrimmerViewer extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
   /// For showing the video playback area.
   ///
@@ -35,19 +19,34 @@ class VideoViewer extends StatefulWidget {
   /// * [padding] for specifying a padding around the video viewer
   /// area. By default it is set to `EdgeInsets.all(0.0)`.
   ///
-  const VideoViewer({
-    Key? key,
+  const VideoTrimmerViewer({
+    super.key,
     required this.trimmer,
     this.borderColor = Colors.transparent,
     this.borderWidth = 0.0,
     this.padding = const EdgeInsets.all(0.0),
-  }) : super(key: key);
+  });
+
+  /// The Trimmer instance controlling the data.
+  final Trimmer trimmer;
+
+  /// For specifying the color of the video
+  /// viewer area border. By default it is set to `Colors.transparent`.
+  final Color borderColor;
+
+  /// For specifying the border width around
+  /// the video viewer area. By default it is set to `0.0`.
+  final double borderWidth;
+
+  /// For specifying a padding around the video viewer
+  /// area. By default it is set to `EdgeInsets.all(0.0)`.
+  final EdgeInsets padding;
 
   @override
-  State<VideoViewer> createState() => _VideoViewerState();
+  State<VideoTrimmerViewer> createState() => _VideoViewerState();
 }
 
-class _VideoViewerState extends State<VideoViewer> {
+class _VideoViewerState extends State<VideoTrimmerViewer> {
   /// Quick access to VideoPlayerController, only not null after [TrimmerEvent.initialized]
   /// has been emitted.
   VideoPlayerController? get videoPlayerController =>
@@ -66,31 +65,26 @@ class _VideoViewerState extends State<VideoViewer> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = videoPlayerController;
+    var controller = videoPlayerController;
     return controller == null
         ? Container()
         : Padding(
             padding: const EdgeInsets.all(0.0),
-            child: Center(
-              child: AspectRatio(
-                aspectRatio: controller.value.aspectRatio,
-                child: controller.value.isInitialized
-                    ? Container(
-                        foregroundDecoration: BoxDecoration(
-                          border: Border.all(
-                            width: widget.borderWidth,
-                            color: widget.borderColor,
-                          ),
-                        ),
-                        child: VideoPlayer(controller),
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                        ),
+            child: controller.value.isInitialized
+                ? Container(
+                    foregroundDecoration: BoxDecoration(
+                      border: Border.all(
+                        width: widget.borderWidth,
+                        color: widget.borderColor,
                       ),
-              ),
-            ),
+                    ),
+                    child: VideoPlayer(controller),
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
           );
   }
 
