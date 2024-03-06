@@ -56,14 +56,8 @@ class _TrimmerViewState extends State<TrimmerView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (Navigator.of(context).userGestureInProgress) {
-          return false;
-        } else {
-          return true;
-        }
-      },
+    return PopScope(
+      canPop: !Navigator.of(context).userGestureInProgress,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -87,7 +81,7 @@ class _TrimmerViewState extends State<TrimmerView> {
                   child: const Text("SAVE"),
                 ),
                 Expanded(
-                  child: VideoViewer(trimmer: _trimmer),
+                  child: VideoTrimmerViewer(trimmer: _trimmer),
                 ),
                 Center(
                   child: Padding(

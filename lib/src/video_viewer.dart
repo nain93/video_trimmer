@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_trimmer/video_trimmer.dart';
+
+import 'trimmer.dart';
 
 class VideoTrimmerViewer extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
