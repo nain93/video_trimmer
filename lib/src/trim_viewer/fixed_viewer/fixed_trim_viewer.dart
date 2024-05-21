@@ -365,6 +365,7 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
           (_endPos.dx + details.delta.dx >= _startPos.dx) &&
           !(_endPos.dx - _startPos.dx + details.delta.dx > maxLengthPixels!)) {
         _endPos += details.delta;
+        _onStartDragged();
         _onEndDragged();
       }
     }
@@ -398,7 +399,7 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
       _endCircleSize = widget.editorProperties.circleSize;
       if (_dragType == EditorDragType.right) {
         videoPlayerController
-            .seekTo(Duration(milliseconds: _videoEndPos.toInt()));
+            .seekTo(Duration(milliseconds: _videoStartPos.toInt()));
       } else {
         videoPlayerController
             .seekTo(Duration(milliseconds: _videoStartPos.toInt()));
